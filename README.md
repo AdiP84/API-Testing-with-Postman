@@ -5,5 +5,5 @@
 
 https://qachallenge.ro/api/ 
 
-![Image My Postman Collections](C:\Users\adria\Desktop\Postman\collections.png)
+![Image My Postman Collections](C:/Users/adria/Desktop/Postman/collections.png)
 
