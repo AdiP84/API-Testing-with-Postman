@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "1c9e8608-97fd-466b-8530-45992e31a910",
+		"name": "Weather",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23029224"
+	},
+	"item": [
+		{
+			"name": "Get weather by city name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.openweathermap.org/data/2.5/weather?q=Brasov&appid=4ac533c1ba402d162c9a36657b1b2520&units=metric&mode=json&lang=ro",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Brasov"
+						},
+						{
+							"key": "appid",
+							"value": "4ac533c1ba402d162c9a36657b1b2520"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						},
+						{
+							"key": "mode",
+							"value": "json"
+						},
+						{
+							"key": "lang",
+							"value": "ro"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 Day / 3 Hour Forecast",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.openweathermap.org/data/2.5/forecast?lat=45.64&lon=25.60&appid=4ac533c1ba402d162c9a36657b1b2520&units=metric&mode=json&cnt=3",
+					"protocol": "http",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"forecast"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "45.64"
+						},
+						{
+							"key": "lon",
+							"value": "25.60"
+						},
+						{
+							"key": "appid",
+							"value": "4ac533c1ba402d162c9a36657b1b2520"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						},
+						{
+							"key": "mode",
+							"value": "json"
+						},
+						{
+							"key": "cnt",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
