@@ -6,4 +6,9 @@
 https://qachallenge.ro/api/ 
 
 
+**Documentation for weather website**
+
+https://openweathermap.org/api
+
+
 
