@@ -1,8 +1,14 @@
 The programming language is JavaScript.
 All the scripts use pm (Postman) library and test() method.
 Assertions use Chai library.
+The reference website is: https://thecocktaildb.com/api.php with the example endpoint: www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007.
 
-The tests scripts for the API endpoint:
+The tests scripts for the API endpoint: www.thecocktaildb.com/api/json/v1/1/lookup.php?i={{random}} are written below,
+where the "random" variable is declared in the "Pre-request Script" in Postman:
+
+let random = Math.floor(Math.random() * 100) + 11000;
+pm.variables.set("random",random);
+
 ----------------------------------------------------------------------------------------------------------------
 pm.test('Status code',function (){
     pm.expect(pm.response).to.have.status(200);
