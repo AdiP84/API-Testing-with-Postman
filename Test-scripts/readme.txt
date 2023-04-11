@@ -1,14 +1,15 @@
-All the scripts use pm (Postman) library and 'test' method.
+The programming language is JavaScript.
+All the scripts use pm (Postman) library and test() method.
 Assertions use Chai library.
 
 The tests scripts for the API endpoint:
-
+----------------------------------------------------------------------------------------------------------------
 pm.test('Status code',function (){
-    pm.response.to.have.status(200);
+    pm.expect(pm.response).to.have.status(200);
 });
 
 pm.test('Response should be in json format', () => {
-    pm.response.to.be.json;
+    pm.expect(pm.response).to.be.json;
 });
 
 pm.test("Response time is less than 200ms", function () {
@@ -22,5 +23,5 @@ pm.test("Response cookies should not contain 'session_token'", function () {
 pm.test("Response 'headers' with key 'Content-Type' should contain value 'application/json'", () => {
     pm.expect(pm.response.headers.get("Content-Type")).to.contain("application/json");
 });
-
+---------------------------------------------------------------------------------------------------------------
 I also attached a screen shot for the Test Results.
