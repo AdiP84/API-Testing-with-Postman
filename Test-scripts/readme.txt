@@ -10,7 +10,7 @@ let random = Math.floor(Math.random() * 100) + 11000;
 pm.variables.set("random",random);
 
 ----------------------------------------------------------------------------------------------------------------
-pm.test('Status code',function (){
+pm.test('Status code',function () {
     pm.expect(pm.response).to.have.status(200);
 });
 
