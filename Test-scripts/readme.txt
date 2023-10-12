@@ -3,6 +3,8 @@ All the scripts use pm (Postman) library and test() method.
 Assertions use Chai library.
 The reference website is: https://thecocktaildb.com/api.php with the example endpoint: www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007.
 
+The other reference website for the "users" collection is: https://dummyjson.com/docs/users.
+
 The tests scripts for the API endpoint: www.thecocktaildb.com/api/json/v1/1/lookup.php?i={{random}} are written below,
 where the "random" variable is declared in the "Pre-request Script" in Postman:
 
