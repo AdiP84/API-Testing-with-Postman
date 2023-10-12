@@ -1,0 +1,668 @@
+{
+	"info": {
+		"_postman_id": "cad70b2f-4ad6-4179-bda4-08d94e21aa08",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23029224"
+	},
+	"item": [
+		{
+			"name": "Get all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response time is less than 400ms\", function () {\r",
+							"//     pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"// });\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Poznan School of Banking\");\r",
+							"});\r",
+							"\r",
+							"pm.test('Check specific \"id\" in the response within limit of 30', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    var expectedId = 30; \r",
+							"    var correspondingPos = data.users[expectedId - 1].id;\r",
+							"    console.log(expectedId+' - '+correspondingPos+' -- '+(expectedId===correspondingPos)); // debug because the test was failing\r",
+							"    // \"users\" property is an array containing 30 user objects and each user object has an \"id\" property\r",
+							"    // console.log('Response Data:', data); // Debugging output\r",
+							"    // Check the data type of \"correspondingPos\"\r",
+							"    console.log('Data Type of correspondingPos:', typeof correspondingPos);\r",
+							"    // Found the expected \"id\", make the assertion\r",
+							"    pm.expect(correspondingPos).to.equal(expectedId);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check specific \"id\" in the response', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    var expectedId = 1; \r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    // Check if the response is an object with an \"id\" property\r",
+							"    pm.expect(data).to.have.property('id').that.is.a('number');\r",
+							"    // Check if the \"id\" in the response matches the expected \"id\"\r",
+							"    pm.expect(data.id).to.equal(expectedId);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response time is less than 200ms\", function () {\r",
+							"//     pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"// });\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"atuny0@sohu.com\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response time is less than 300ms\", function () {\r",
+							"//     pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"// });\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"John\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/search?q=John",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "John"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Users with Brown hair are returned', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    // Check if the \"users\" array exists\r",
+							"    console.log(data);\r",
+							"    pm.expect(data).to.have.property('users').that.is.an('array');\r",
+							"    // Check that all users in the array have \"Brown\" hair color\r",
+							"    data.users.forEach(function(user) {\r",
+							"        // Check the \"hair\" property within each user object\r",
+							"        pm.expect(user).to.have.property('hair').that.is.an('object');\r",
+							"        pm.expect(user.hair).to.have.property('color').that.is.a('string').that.equals('Brown');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Brown\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/filter?key=hair.color&value=Brown",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"filter"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "hair.color"
+						},
+						{
+							"key": "value",
+							"value": "Brown"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Limit & Skip users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"age\");\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"firstName\");\r",
+							"});\r",
+							"pm.test(\"Response header is correct\", function () {\r",
+							"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"// Test : Check if the number of users in the response body is equal to the limit parameter.\r",
+							"\r",
+							"pm.test(\"Number of items in response body matches limit parameter\", function () {\r",
+							"    const limit = 5; \r",
+							"    const users = pm.response.json().users;\r",
+							"    console.log(users);\r",
+							"    pm.expect(users.length).to.be.eq(limit);\r",
+							"});\r",
+							"\r",
+							"//Test 2: Check if the first 10 users in the response body are skipped by the skip parameter.\r",
+							"\r",
+							"pm.test(\"First item in response body is skipped by skip parameter\", function () {\r",
+							"    const skip = 10; \r",
+							"    const firstUsers = pm.response.json().users[0];\r",
+							"    console.log(firstUsers)\r",
+							"    pm.expect(firstUsers.id).to.be.greaterThan(skip);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}?limit=5&skip=10&select=firstName,age",
+					"host": [
+						"{{base_url}}"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "skip",
+							"value": "10"
+						},
+						{
+							"key": "select",
+							"value": "firstName,age"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user's carts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response time is less than 300ms\", function () {\r",
+							"//     pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"// });\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Mornadi Velvet Bed\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Rose Ring\");\r",
+							"});\r",
+							"pm.test(\"Response header is correct\", function () {\r",
+							"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test('Check specific \"id\" in the response', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    var expectedId = 19; \r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    var userCarts = data.carts;\r",
+							"    pm.expect(userCarts[0]).to.have.property('id').that.is.a('number');\r",
+							"    pm.expect(userCarts[0].id).to.equal(expectedId);\r",
+							"    pm.expect(userCarts[0].products[0]).to.have.property('title').that.is.a('string').and.equals('frock gold printed');\r",
+							"    pm.expect(userCarts[0].products[4]).to.have.property('price').that.is.a('number').and.equals(68);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/5/carts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"5",
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user's posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response time is less than 300ms\", function () {\r",
+							"//     pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"// });\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Pepsi-Cola\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"She was in a hurry\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response header is correct\", function () {\r",
+							"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test('Check specific \"userId\" in the response', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    var expectedUserId = 5; \r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    data.posts.forEach(function(post){\r",
+							"        pm.expect(post).to.have.property('id').that.is.a('number');\r",
+							"        pm.expect(post.userId).to.equal(expectedUserId);\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/5/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"5",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user's todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response time is less than 300ms\", function () {\r",
+							"//     pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"// });\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Create a compost pile\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response header is correct\", function () {\r",
+							"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test('Check specific \"userId\" in the response', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    var expectedUserId = 5; \r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    data.todos.forEach(function(fulfill) {\r",
+							"        pm.expect(fulfill).to.have.property('id').that.is.a('number');\r",
+							"        pm.expect(fulfill).to.have.property('todo').that.is.a('string');\r",
+							"        pm.expect(fulfill.userId).to.equal(expectedUserId);\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/5/todos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"5",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response header is correct\", function () {\r",
+							"  pm.expect(pm.response.headers.get(\"content-type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if user is added with correct data in the response', function () {\r",
+							"    var data = pm.response.json();\r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    pm.expect(data).to.have.property('id').that.is.a('number').and.equals(101);\r",
+							"    pm.expect(data).to.have.property('firstName').that.is.a('string').and.equals('Muhammad');\r",
+							"    pm.expect(data).to.have.property('lastName').that.is.a('string').and.equals('Ovi');\r",
+							"    pm.expect(data.age).to.be.a('number').and.eq(250);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"Muhammad\",\r\n   \"lastName\":\"Ovi\",\r\n   \"age\":250\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/add",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response header is correct\", function () {\r",
+							"  pm.expect(pm.response.headers.get(\"content-type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if user is updated with correct data in the response', () => {\r",
+							"    var data = pm.response.json();\r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    pm.expect(data).to.have.property('id').that.is.a('number').and.equals(1);\r",
+							"    pm.expect(data).to.have.property('lastName').that.is.a('string').and.equals('Owais');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lastName\": \"Owais\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if user is deleted with correct validation in the response', () => {\r",
+							"    var data = pm.response.json();\r",
+							"    console.log('Data response: ');\r",
+							"    console.log(data);\r",
+							"    pm.expect(data).to.have.property('id').that.is.a('number').and.equals(1);\r",
+							"    pm.expect(data).to.have.property('isDeleted').that.is.a('boolean').and.is.true;\r",
+							"    pm.expect(data).to.have.property('deletedOn').that.is.a('string');\r",
+							"    const dateOfDeletion = data.deletedOn;\r",
+							"    // use the new Date() constructor to create a new Date object from the dateOfDeletion string\r",
+							"    const date = new Date(dateOfDeletion);\r",
+							"    pm.expect(date.isValid()).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://dummyjson.com/users",
+			"type": "string"
+		}
+	]
+}
